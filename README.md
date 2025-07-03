@@ -1,6 +1,6 @@
 # Notes Manager
 
-O Notes Manager é um app para gerenciar notas de maneira simples e intuitíva. É construído usando o [Next.js](https://nextjs.org/) para o APP de frontend , e [Laravel](https://laravel.com/) + [MySQL](https://www.mysql.com/) para a API REST de backend.
+O Notes Manager é um app para gerenciar notas de maneira simples e intuitíva. É construído usando o [Next.js](https://nextjs.org/) para o APP de frontend, e [Laravel](https://laravel.com/) + [MySQL](https://www.mysql.com/) para a API REST de backend.
 
 ## Instalação: 
 
