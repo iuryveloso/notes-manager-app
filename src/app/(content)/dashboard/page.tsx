@@ -12,6 +12,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import Card from '@/components/card'
 import CardButton from '@/components/cardButton'
+import NavProfile from '@/components/navProfile'
 
 export default function Dashboard() {
   const token = process.env.NEXT_PUBLIC_TEST_TOKEN as string
@@ -98,6 +99,11 @@ export default function Dashboard() {
       ) > 0
     )
   }
+
+  function onClickLogout() {
+    console.log('logout')
+  }
+
   return (
     <div>
       <div className={'relative'}>
@@ -119,7 +125,14 @@ export default function Dashboard() {
                   />
                 </a>
               </div>
-              <label className={'mr-7 text-xl text-gray-500'}>CoreNotes</label>
+              <label className={'mr-7 text-xl text-gray-500'}>
+                Notes Manager
+              </label>
+              <div className={'flex grow justify-end'}>
+                <div className={'sm:hidden'}>
+                  <NavProfile onClickLogout={onClickLogout} />
+                </div>
+              </div>
             </div>
             <div
               className={'flex items-center justify-center md:justify-start'}
@@ -145,6 +158,11 @@ export default function Dashboard() {
                     priority={true}
                   />
                 </div>
+              </div>
+            </div>
+            <div className={'flex grow justify-end'}>
+              <div className={'hidden sm:block'}>
+                <NavProfile onClickLogout={onClickLogout} />
               </div>
             </div>
           </nav>
