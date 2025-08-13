@@ -1,9 +1,15 @@
 'use client'
-import { useState } from 'react'
+import { AppContext } from '@/context/appContext'
+import { useContext, useEffect, useState } from 'react'
 import Input from '@/components/input'
+import { Errors, User } from '@/interfaces/userInterfaces'
 import Button from '@/components/button'
+import { Credentials } from '@/interfaces/authInterfaces'
+import { authLogin, authRegister } from '@/functions/authFunctions'
 
 export default function Login() {
+  const { setToken } = useContext(AppContext)
+
   const [mode, setMode] = useState<'login' | 'register'>('login')
 
   const emptyUser = {
@@ -18,17 +24,37 @@ export default function Login() {
     password_confirmation: '',
   }
 
-  const [user, setUser] = useState<{
-    name: string
-    email: string
-    avatar: string
-  }>(emptyUser)
-  const [credentials, setCredentials] = useState(emptyCredentials)
+  const [user, setUser] = useState<User>(emptyUser)
+  const [credentials, setCredentials] = useState<Credentials>(emptyCredentials)
   const [showPassword, setShowPassword] = useState({
     old_password: false,
     password: false,
     password_confirmation: false,
   })
+  const [errors, setErrors] = useState<Errors['errors']>({})
+  const [showErrors, setShowErrors] = useState(false)
+  const [message, setMessage] = useState('')
+  const [showMessage, setShowMessage] = useState(false)
+
+  useEffect(() => {
+    if (Object.keys(errors).length !== 0) {
+      setShowErrors(true)
+      setTimeout(() => {
+        setErrors({})
+        setShowErrors(false)
+      }, 3000)
+    }
+  }, [errors])
+
+  useEffect(() => {
+    if (message) {
+      setShowMessage(true)
+      setTimeout(() => {
+        setMessage('')
+        setShowMessage(false)
+      }, 3000)
+    }
+  }, [message])
 
   function onCLickPasswordIcon() {
     setShowPassword({
@@ -45,11 +71,11 @@ export default function Login() {
   }
 
   function loginSubmit() {
-    console.log('login')
+    authLogin(user, credentials, setErrors, setMessage, setToken)
   }
 
   function registerSubmit() {
-    console.log('register')
+    authRegister(user, credentials, setErrors, setMessage, setToken)
   }
 
   return (
@@ -58,14 +84,31 @@ export default function Login() {
         <div className={'fixed inset-y-0 right-0 z-10 mr-2'}>
           <div className={'flex flex-col'}>
             <div
-              className={`mt-1 flex flex-col items-center rounded-sm bg-red-300 px-3 py-2 shadow-md`}
+              className={`mt-1 flex flex-col items-center rounded-sm bg-red-300 px-3 py-2 shadow-md ${showErrors ? '' : 'hidden'}`}
             >
-              Errors
+              {errors ? (
+                <>
+                  {errors.name?.map((error, key) => (
+                    <label key={key}>{error}</label>
+                  ))}
+                  {errors.email?.map((error, key) => (
+                    <label key={key}>{error}</label>
+                  ))}
+                  {errors.file?.map((error, key) => (
+                    <label key={key}>{error}</label>
+                  ))}
+                  {errors.password?.map((error, key) => (
+                    <label key={key}>{error}</label>
+                  ))}
+                </>
+              ) : (
+                false
+              )}
             </div>
             <div
-              className={`mt-1 flex flex-col items-center rounded-sm bg-green-300 px-3 py-2 shadow-md`}
+              className={`mt-1 flex flex-col items-center rounded-sm bg-green-300 px-3 py-2 shadow-md ${showMessage ? '' : 'hidden'}`}
             >
-              Messages
+              {message ? <label>{message}</label> : false}
             </div>
           </div>
         </div>
@@ -75,12 +118,10 @@ export default function Login() {
         <div className={'container flex justify-center'}>
           <div
             className={
-              'mb-2 w-11/12 rounded-xl py-2 px-5 bg-white text-center shadow-md lg:w-4/5'
+              'mb-2 w-11/12 rounded-xl bg-white px-5 py-2 text-center shadow-md lg:w-4/5'
             }
           >
-            <h1 className={'mt-3 pb-3 text-3xl'}>
-              NOTES MANAGER
-            </h1>
+            <h1 className={'mt-3 pb-3 text-3xl'}>NOTES MANAGER</h1>
             <hr className={'border border-gray-400'} />
             <h2 className={'my-1 text-2xl'}>
               {mode === 'login' ? 'Login' : 'Cadastro'}

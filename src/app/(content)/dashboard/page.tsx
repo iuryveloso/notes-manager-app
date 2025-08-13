@@ -10,14 +10,16 @@ import {
 import { Errors, Note } from '@/interfaces/noteInterfaces'
 import { userShow } from '@/functions/userFunctions'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Card from '@/components/card'
 import CardButton from '@/components/cardButton'
 import NavProfile from '@/components/navProfile'
 import { User } from '@/interfaces/userInterfaces'
+import { AppContext } from '@/context/appContext'
+import { authLogout } from '@/functions/authFunctions'
 
 export default function Dashboard() {
-  const token = process.env.NEXT_PUBLIC_TEST_TOKEN as string
+  const { token, setToken } = useContext(AppContext)
 
   const emptyNote: Note = {
     id: '',
@@ -84,7 +86,7 @@ export default function Dashboard() {
   }, [message])
 
   useEffect(() => {
-    noteIndex(setNotes, token)
+    if(token) noteIndex(setNotes, token)
   }, [token])
 
   useEffect(() => {
@@ -113,7 +115,7 @@ export default function Dashboard() {
   }
 
   function onClickLogout() {
-    console.log('logout')
+    authLogout(setMessage, setToken, token)
   }
 
   return (

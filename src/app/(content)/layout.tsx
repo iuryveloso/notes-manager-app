@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import AppProvider from '@/context/appContext'
 import '../globals.css'
 
 const geistSans = Geist({
@@ -23,14 +24,16 @@ interface ContentLayout {
 
 export default function ContentLayout({ children }: Readonly<ContentLayout>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <div className={'h-screen overflow-y-auto bg-gray-100 text-gray-700'}>
-          {children}
-        </div>
-      </body>
-    </html>
+    <AppProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <div className={'h-screen overflow-y-auto bg-gray-100 text-gray-700'}>
+            {children}
+          </div>
+        </body>
+      </html>
+    </AppProvider>
   )
 }
