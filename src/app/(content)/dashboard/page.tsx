@@ -28,7 +28,7 @@ export default function Dashboard() {
   }
 
   const [search, setSearch] = useState('')
-  const [errors, setErrors] = useState<Errors['errors']>([])
+  const [errors, setErrors] = useState<Errors['errors']>({})
   const [showErrors, setShowErrors] = useState(false)
   const [message, setMessage] = useState('')
   const [showMessage, setShowMessage] = useState(false)
@@ -67,7 +67,7 @@ export default function Dashboard() {
     if (Object.keys(errors).length !== 0) {
       setShowErrors(true)
       setTimeout(() => {
-        setErrors([])
+        setErrors({})
         setShowErrors(false)
       }, 3000)
     }
@@ -190,8 +190,17 @@ export default function Dashboard() {
               >
                 {errors ? (
                   <>
-                    {errors.map((error, key) => (
-                      <label key={key}>{error.message}</label>
+                    {errors.title?.map((error, key) => (
+                      <label key={key}>{error}</label>
+                    ))}
+                    {errors.body?.map((error, key) => (
+                      <label key={key}>{error}</label>
+                    ))}
+                    {errors.color?.map((error, key) => (
+                      <label key={key}>{error}</label>
+                    ))}
+                    {errors.favorited?.map((error, key) => (
+                      <label key={key}>{error}</label>
                     ))}
                   </>
                 ) : (

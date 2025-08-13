@@ -24,13 +24,10 @@ export interface Message {
 }
 
 export interface Errors {
-  errors: Array<{ message: string }>
+  errors: {
+    title?: Array<string>
+    body?: Array<string>
+    color?: Array<string>
+    favorited?: Array<string>
+  }
 }
-// export interface Errors {
-//   errors: {
-//     title?: Array<string>
-//     body?: Array<string>
-//     color?: Array<string>
-//     favorited?: Array<string>
-//   }
-// }
