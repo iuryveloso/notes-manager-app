@@ -1,11 +1,21 @@
 'use client'
 import Image from 'next/image'
-import { ChangeEvent, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import {
+  userUpdate,
+  userUpdateAvatar,
+  userUpdatePassword,
+} from '@/functions/userFunctions'
 import Input from '@/components/input'
+import { userShow } from '@/functions/userFunctions'
+import { Errors, User } from '@/interfaces/userInterfaces'
 import NavProfile from '@/components/navProfile'
 import Button from '@/components/button'
 
 export default function Profile() {
+  const token = process.env.NEXT_PUBLIC_TEST_TOKEN as string
+
+  const imagesDomain = `${process.env.NEXT_PUBLIC_API_DOMAIN}/storage/uploads/`
 
   const emptyCredentials = {
     old_password: '',
@@ -13,7 +23,7 @@ export default function Profile() {
     password_confirmation: '',
   }
 
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<User>({
     name: '',
     email: '',
     avatar: '',
@@ -24,8 +34,36 @@ export default function Profile() {
     password: false,
     password_confirmation: false,
   })
+  const [errors, setErrors] = useState<Errors['errors']>({})
+  const [showErrors, setShowErrors] = useState(false)
+  const [message, setMessage] = useState('')
+  const [showMessage, setShowMessage] = useState(false)
 
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (Object.keys(errors).length !== 0) {
+      setShowErrors(true)
+      setTimeout(() => {
+        setErrors({})
+        setShowErrors(false)
+      }, 3000)
+    }
+  }, [errors])
+
+  useEffect(() => {
+    if (message) {
+      setShowMessage(true)
+      setTimeout(() => {
+        setMessage('')
+        setShowMessage(false)
+      }, 3000)
+    }
+  }, [message])
+
+  useEffect(() => {
+    if (token) userShow(setUser, token)
+  }, [token])
 
   function onCLickOldPasswordIcon() {
     setShowPassword({
@@ -49,10 +87,10 @@ export default function Profile() {
   }
 
   function updateUserClick() {
-    console.log('update')
+    userUpdate(user, setUser, token, setErrors, setMessage)
   }
   function updatePasswordClick() {
-    console.log('update password')
+    userUpdatePassword(credentials, setErrors, setMessage, token)
     setCredentials(emptyCredentials)
   }
 
@@ -60,7 +98,7 @@ export default function Profile() {
     const files = e.target.files
     if (!files) return
 
-    console.log(files)
+    userUpdateAvatar(files[0], setUser, setErrors, setMessage, token)
   }
 
   function updateAvatarClick() {
@@ -94,18 +132,16 @@ export default function Profile() {
                   />
                 </a>
               </div>
-              <label className={'mr-7 text-xl text-gray-500'}>
-                Notes Manager
-              </label>
+              <label className={'mr-7 text-xl text-gray-500'}>Notes Manager</label>
               <div className={'flex grow justify-end'}>
                 <div className={'sm:hidden'}>
-                  <NavProfile onClickLogout={onClickLogout} />
+                  <NavProfile user={user} onClickLogout={onClickLogout} />
                 </div>
               </div>
             </div>
             <div className={'flex grow justify-end'}>
               <div className={'hidden sm:block'}>
-                <NavProfile onClickLogout={onClickLogout} />
+                <NavProfile user={user} onClickLogout={onClickLogout} />
               </div>
             </div>
           </nav>
@@ -117,14 +153,34 @@ export default function Profile() {
           <div className={'fixed inset-y-14 right-0 z-10 mr-2'}>
             <div className={'flex flex-col'}>
               <div
-                className={`mt-1 flex flex-col items-center rounded-sm bg-red-300 px-3 py-2 shadow-md`}
+                className={`mt-1 flex flex-col items-center rounded-sm bg-red-300 px-3 py-2 shadow-md ${showErrors ? '' : 'hidden'}`}
               >
-                Errors
+                {errors ? (
+                  <>
+                    {errors.name?.map((error, key) => (
+                      <label key={key}>{error}</label>
+                    ))}
+                    {errors.email?.map((error, key) => (
+                      <label key={key}>{error}</label>
+                    ))}
+                    {errors.file?.map((error, key) => (
+                      <label key={key}>{error}</label>
+                    ))}
+                    {errors.password?.map((error, key) => (
+                      <label key={key}>{error}</label>
+                    ))}
+                    {errors.old_password?.map((error, key) => (
+                      <label key={key}>{error}</label>
+                    ))}
+                  </>
+                ) : (
+                  false
+                )}
               </div>
               <div
-                className={`mt-1 flex flex-col items-center rounded-sm bg-green-300 px-3 py-2 shadow-md`}
+                className={`mt-1 flex flex-col items-center rounded-sm bg-green-300 px-3 py-2 shadow-md ${showMessage ? '' : 'hidden'}`}
               >
-                Message
+                {message ? <label>{message}</label> : false}
               </div>
             </div>
           </div>
@@ -148,14 +204,27 @@ export default function Profile() {
               className={`h-full w-full rounded-xl bg-white px-5 pt-4 pb-3 shadow-md`}
             >
               <div className={'mb-3 flex justify-center'}>
-                <Image
-                  src={'/user.svg'}
-                  width={250}
-                  height={250}
-                  alt={'Profile'}
-                  priority={true}
-                  className={`h-36 w-36 rounded-full border border-gray-300 shadow-md`}
-                />
+                {user.avatar ? (
+                  <Image
+                    loader={({src})=> src}
+                    unoptimized={true}
+                    src={`${imagesDomain}${user.avatar}`}
+                    width={250}
+                    height={250}
+                    alt={'Profile'}
+                    priority={true}
+                    className={`h-36 w-36 rounded-full border border-gray-300 shadow-md`}
+                  />
+                ) : (
+                  <Image
+                    src={'/user.svg'}
+                    width={250}
+                    height={250}
+                    alt={'Profile'}
+                    priority={true}
+                    className={`h-36 w-36 rounded-full border border-gray-300 shadow-md`}
+                  />
+                )}
               </div>
               <div>
                 <Button

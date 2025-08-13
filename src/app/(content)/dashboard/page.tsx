@@ -8,11 +8,13 @@ import {
   noteRestore,
 } from '@/functions/noteFunctions'
 import { Errors, Note } from '@/interfaces/noteInterfaces'
+import { userShow } from '@/functions/userFunctions'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import Card from '@/components/card'
 import CardButton from '@/components/cardButton'
 import NavProfile from '@/components/navProfile'
+import { User } from '@/interfaces/userInterfaces'
 
 export default function Dashboard() {
   const token = process.env.NEXT_PUBLIC_TEST_TOKEN as string
@@ -39,6 +41,12 @@ export default function Dashboard() {
   }>({
     visible: false,
     note: emptyNote,
+  })
+
+  const [user, setUser] = useState<User>({
+    name: '',
+    email: '',
+    avatar: '',
   })
 
   const getIconFavorited = note.favorited
@@ -77,6 +85,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     noteIndex(setNotes, token)
+  }, [token])
+
+  useEffect(() => {
+    if (token) userShow(setUser, token)
   }, [token])
 
   useEffect(() => {
@@ -130,7 +142,7 @@ export default function Dashboard() {
               </label>
               <div className={'flex grow justify-end'}>
                 <div className={'sm:hidden'}>
-                  <NavProfile onClickLogout={onClickLogout} />
+                  <NavProfile user={user} onClickLogout={onClickLogout} />
                 </div>
               </div>
             </div>
@@ -162,7 +174,7 @@ export default function Dashboard() {
             </div>
             <div className={'flex grow justify-end'}>
               <div className={'hidden sm:block'}>
-                <NavProfile onClickLogout={onClickLogout} />
+                <NavProfile user={user} onClickLogout={onClickLogout} />
               </div>
             </div>
           </nav>
