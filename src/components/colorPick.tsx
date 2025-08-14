@@ -1,11 +1,11 @@
 import { Note } from '@/interfaces/noteInterfaces'
 import { Dispatch, SetStateAction } from 'react'
-import ColorPickButton from './colorPickButton'
+import ColorButton from './colorButton'
 
 interface ColorPick {
   colorPick: boolean
   setColorPick: Dispatch<SetStateAction<boolean>>
-  editColor(color: Note['color']): void
+  editColor(color: Note['color'] | 'all'): void
 }
 
 export default function ColorPick({
@@ -40,7 +40,7 @@ export default function ColorPick({
         {colorList.map((color, key) => {
           if (color)
             return (
-              <ColorPickButton key={key} color={color} editColor={editColor} />
+              <ColorButton key={key} color={color} editColor={editColor} />
             )
         })}
       </div>

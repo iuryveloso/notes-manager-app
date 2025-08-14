@@ -6,6 +6,7 @@ import {
   noteStore,
   noteSearch,
   noteRestore,
+  noteColorSearch,
 } from '@/functions/noteFunctions'
 import { Errors, Note } from '@/interfaces/noteInterfaces'
 import { userShow } from '@/functions/userFunctions'
@@ -17,6 +18,7 @@ import NavProfile from '@/components/navProfile'
 import { User } from '@/interfaces/userInterfaces'
 import { AppContext } from '@/context/appContext'
 import { authLogout } from '@/functions/authFunctions'
+import ColorFilter from '@/components/colorFilter'
 
 export default function Dashboard() {
   const { token, setToken } = useContext(AppContext)
@@ -29,6 +31,7 @@ export default function Dashboard() {
     favorited: false,
   }
 
+  const [color, setColor] = useState<Note['color'] | 'all'>('all')
   const [search, setSearch] = useState('')
   const [errors, setErrors] = useState<Errors['errors']>({})
   const [showErrors, setShowErrors] = useState(false)
@@ -54,6 +57,8 @@ export default function Dashboard() {
   const getIconFavorited = note.favorited
     ? '/icons/star_fill.svg'
     : '/icons/star.svg'
+
+  const colors = notes.map((note) => note.color)
 
   function OnClickCardButton(
     type: 'edit' | 'color' | 'favorite' | 'delete' | 'save'
@@ -94,9 +99,18 @@ export default function Dashboard() {
   }, [token])
 
   useEffect(() => {
-    if (search) setShownNotes(noteSearch(search, notes))
-    else setShownNotes(notes)
-  }, [notes, search])
+    const hasColor = color !== 'all'
+    if (search && hasColor)
+      setShownNotes(noteColorSearch(color, noteSearch(search, notes)))
+    if (!search && hasColor) setShownNotes(noteColorSearch(color, notes))
+    if (search && !hasColor) setShownNotes(noteSearch(search, notes))
+    if (!search && !hasColor) setShownNotes(notes)
+  }, [notes, search, color])
+  
+  // useEffect(() => {
+  //   if (search) setShownNotes(noteSearch(search, notes))
+  //   else setShownNotes(notes)
+  // }, [notes, search])
 
   function hasFavorited() {
     return (
@@ -276,6 +290,17 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+        {new Set(colors).size > 1 ? (
+            <div
+              className={
+                'mt-7 ml-0 flex justify-center md:ml-5'
+              }
+            >
+              <ColorFilter setColor={setColor} colors={colors} />
+            </div>
+          ) : (
+            false
+          )}
         <div className={'flex flex-wrap justify-center'}>
           <div>
             {hasFavorited() ? (

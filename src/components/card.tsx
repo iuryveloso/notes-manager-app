@@ -81,16 +81,18 @@ export default function Card({
     }
   }
 
-  function editColor(color: Note['color']) {
-    const whiteColorCheck = color === note.color ? 'white' : color
-    noteUpdate(
-      { ...note, color: whiteColorCheck },
-      setNotes,
-      setErrors,
-      setMessage,
-      token
-    )
-    setColorPick(!colorPick)
+  function editColor(color: Note['color'] | 'all') {
+    if (color !== 'all') {
+      const whiteColorCheck = color === note.color ? 'white' : color
+      noteUpdate(
+        { ...note, color: whiteColorCheck },
+        setNotes,
+        setErrors,
+        setMessage,
+        token
+      )
+      setColorPick(!colorPick)
+    }
   }
 
   const titleBorder =
