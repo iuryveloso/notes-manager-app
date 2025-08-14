@@ -2,7 +2,7 @@
 import { Note, Errors } from '@/interfaces/noteInterfaces'
 import CardButton from './cardButton'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import CardColorButton from './cardColorButton'
+import ColorPick from './colorPick'
 
 interface Card {
   note: Note
@@ -93,24 +93,6 @@ export default function Card({
     setColorPick(!colorPick)
   }
 
-  const colorList: Note['color'][] = [
-    'blue',
-    'teal',
-    'yellow',
-    'salmon',
-    'red',
-    'sky',
-  ]
-
-  const colorList2: Note['color'][] = [
-    'pink',
-    'lime',
-    'orange',
-    'cloud',
-    'gray',
-    'brown',
-  ]
-
   const titleBorder =
     note.color !== 'white' ? 'border-white' : 'border-gray-400'
   const getIconFavorited = note.favorited
@@ -172,34 +154,11 @@ export default function Card({
         </div>
       </div>
       {colorPick ? (
-        <div
-          className={`z-10 -mt-8 -mb-12 ml-10 h-20 w-60 rounded-2xl bg-white p-1 shadow-md`}
-        >
-          <div className={'mb-2 flex justify-between'}>
-            {colorList.map((color, key) => {
-              if (color)
-                return (
-                  <CardColorButton
-                    key={key}
-                    color={color}
-                    editColor={editColor}
-                  />
-                )
-            })}
-          </div>
-          <div className={'flex justify-between'}>
-            {colorList2.map((color, key) => {
-              if (color)
-                return (
-                  <CardColorButton
-                    key={key}
-                    color={color}
-                    editColor={editColor}
-                  />
-                )
-            })}
-          </div>
-        </div>
+        <ColorPick
+          colorPick={colorPick}
+          setColorPick={setColorPick}
+          editColor={editColor}
+        />
       ) : (
         false
       )}

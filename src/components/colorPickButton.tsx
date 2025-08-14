@@ -1,11 +1,11 @@
 import { Note } from '@/interfaces/noteInterfaces'
 
-interface CardColorButton {
+interface ColorPickButton {
   color: Note['color']
   editColor: (color: Note['color']) => void
 }
 
-export default function CardColorButton({ color, editColor }: CardColorButton) {
+export default function ColorPickButton({ color, editColor }: ColorPickButton) {
   const colorClassName = `bg-card-${color}`
   return (
     <button
