@@ -12,15 +12,12 @@ export default function NavProfile({ user, onClickLogout }: NavProfile) {
   const domain = `${process.env.NEXT_PUBLIC_API_DOMAIN}/storage/uploads/`
   const [showMenu, setShowMenu] = useState(false)
 
-  // const nameArray = user.name.split(' ')
-  // const name = `${nameArray[0] ?? ''} ${nameArray[1] ?? ''}`
-
   const profileHeight = user.name.length > 10 ? 'h-35' : 'h-32'
 
   return (
     <div className={'flex flex-col items-center'}>
       <div className={'flex items-center'}>
-        <div
+        <button
           className={'cursor-pointer'}
           onClick={() => setShowMenu(!showMenu)}
         >
@@ -40,7 +37,7 @@ export default function NavProfile({ user, onClickLogout }: NavProfile) {
           ) : (
             false
           )}
-        </div>
+        </button>
       </div>
       {showMenu ? (
         <>

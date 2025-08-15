@@ -43,7 +43,7 @@ export default function Card({
   setShowRestore,
   token,
 }: Card) {
-  const [colorPick, setColorPick] = useState(false)
+  const [colorPicked, setColorPicked] = useState(false)
   const [readOnly, setReadOnly] = useState(true)
   const [editedNote, setEditedNote] = useState<Note>(emptyNote)
 
@@ -66,7 +66,7 @@ export default function Card({
       }
       setReadOnly(!readOnly)
     }
-    if (type === 'color') setColorPick(!colorPick)
+    if (type === 'color') setColorPicked(!colorPicked)
     if (type === 'favorite')
       noteUpdate(
         { ...note, favorited: !note.favorited },
@@ -91,7 +91,7 @@ export default function Card({
         setMessage,
         token
       )
-      setColorPick(!colorPick)
+      setColorPicked(!colorPicked)
     }
   }
 
@@ -155,10 +155,10 @@ export default function Card({
           </div>
         </div>
       </div>
-      {colorPick ? (
+      {colorPicked ? (
         <ColorPick
-          colorPick={colorPick}
-          setColorPick={setColorPick}
+          colorPicked={colorPicked}
+          setColorPicked={setColorPicked}
           editColor={editColor}
         />
       ) : (

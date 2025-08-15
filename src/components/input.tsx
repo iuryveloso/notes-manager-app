@@ -30,7 +30,7 @@ export default function Input({
       <input
         type={type ?? 'text'}
         id={id as string}
-        className={`w-full px-3 py-1 outline-none ${borderInput} border-gray-300`}
+        className={`px-3 py-1 outline-none ${borderInput} w-full border-gray-300`}
         value={value}
         placeholder={placeholder}
         onChange={onChange}

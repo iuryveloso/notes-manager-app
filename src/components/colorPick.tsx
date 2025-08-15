@@ -3,14 +3,14 @@ import { Dispatch, SetStateAction } from 'react'
 import ColorButton from './colorButton'
 
 interface ColorPick {
-  colorPick: boolean
-  setColorPick: Dispatch<SetStateAction<boolean>>
-  editColor(color: Note['color'] | 'all'): void
+  colorPicked: boolean
+  setColorPicked: Dispatch<SetStateAction<boolean>>
+  editColor: (color: Note['color'] | 'all') => void
 }
 
 export default function ColorPick({
-  colorPick,
-  setColorPick,
+  colorPicked,
+  setColorPicked,
   editColor,
 }: ColorPick) {
   const colorList: Note['color'][] = [
@@ -31,7 +31,7 @@ export default function ColorPick({
     <>
       <div
         className={'fixed inset-0 z-10 h-screen w-screen'}
-        onClick={() => setColorPick(!colorPick)}
+        onClick={() => setColorPicked(!colorPicked)}
       />
 
       <div

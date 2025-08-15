@@ -106,11 +106,6 @@ export default function Dashboard() {
     if (search && !hasColor) setShownNotes(noteSearch(search, notes))
     if (!search && !hasColor) setShownNotes(notes)
   }, [notes, search, color])
-  
-  // useEffect(() => {
-  //   if (search) setShownNotes(noteSearch(search, notes))
-  //   else setShownNotes(notes)
-  // }, [notes, search])
 
   function hasFavorited() {
     return (
