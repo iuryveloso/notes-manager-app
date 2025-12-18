@@ -25,9 +25,9 @@ export interface Message {
 
 export interface Errors {
   errors: {
-    title?: Array<string>
-    body?: Array<string>
-    color?: Array<string>
-    favorited?: Array<string>
+    name?: Array<string>
+    email?: Array<string>
+    file?: Array<string>
+    password?: Array<string>
   }
 }

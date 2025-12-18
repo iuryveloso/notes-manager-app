@@ -16,6 +16,7 @@ interface Context {
 
 export const AppContext = createContext<Context>({
   token: '',
+  // setToken: () => '',
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setToken: function (_value: SetStateAction<string>): void {
     throw new Error('Function not implemented.')

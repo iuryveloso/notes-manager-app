@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import AppProvider from '@/context/appContext'
 import '../globals.css'
+import AppProvider from '@/context/appContext'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Notes Manager',
-  description: 'Um simples gerenciador de notas',
+  description: 'Manage your daily notes',
 }
 
 interface ContentLayout {

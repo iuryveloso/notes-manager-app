@@ -9,7 +9,6 @@ export interface Errors {
     name?: Array<string>
     email?: Array<string>
     file?: Array<string>
-    old_password?: Array<string>
     password?: Array<string>
   }
 }

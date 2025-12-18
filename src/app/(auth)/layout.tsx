@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Notes Manager',
-  description: 'Um simples gerenciador de notas',
+  description: 'Manage your daily notes',
 }
 
 interface AuthLayout {
