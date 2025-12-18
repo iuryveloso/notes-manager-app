@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Notes Manager
 
-## Getting Started
+## Overview
 
-First, run the development server:
+The Notes Manager is a simple and intuitive app for managing notes. It's built using [Next.js](https://nextjs.org/) for the frontend app and [Laravel](https://laravel.com/) + [MySQL](https://www.mysql.com/) for the backend REST API.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+![Login](./images/login.png)
+![Register](./images/register.png)
+![Main Dashboard](./images/dashboard.png)
+![Profile](./images/profile.png)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You need to have [Docker](https://www.docker.com/) installed on your system.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Clone the [APP](https://github.com/iuryveloso/notes-manager-app) and [API](https://github.com/iuryveloso/notes-manager-api) repositories. It's best to place them in the same directory.
 
-## Learn More
+Create a copy of the o `.env.example` file in the root directory of the app. Rename it to a `.env` and fill in the remaining information.
 
-To learn more about Next.js, take a look at the following resources:
+Create a copy of the o `.env.example` file in the root directory of the API. Rename it to a `.env` and fill in the remaining information.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Create a copy of the o `.env.example` file in the a `./docker` folder inside the API directory. Rename it to a `.env` and fill in the remaining information, paying close attention to the app and API directories (APP_DIRECTORY and API_DIRECTORY).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Access the `./docker` folder inside the API directory via the terminal and run the commands s `docker compose build api` and `docker compose build web_app`. Then, run the command `docker compose up -d`.
 
-## Deploy on Vercel
+After the Docker containers are up, run de `docker exec -it notes_manager_api  bash` and execute the following commands:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. `composer install`
+2. `php artisan migrate`
+3. `php artisan key:generate`
+4. `php artisan optimize`
+5. `php artisan storage:link`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Finally, open your browser and go to http://localhost:3000. Enjoy!
