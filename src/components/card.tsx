@@ -65,9 +65,8 @@ export default function Card({
   }, [note])
 
   useEffect(() => {
-    if(isEditable) titleInputRef.current?.focus()
+    if (isEditable) titleInputRef.current?.focus()
   }, [isEditable])
-  
 
   function OnClickButton(
     type: 'color' | 'favorite' | 'delete' | 'save' | 'cancel'
@@ -119,7 +118,9 @@ export default function Card({
     <>
       {!isEditable ? (
         <div
-          className={'cursor-pointer fixed z-10 mt-3 rounded-xl h-30 w-80 hover:shadow-md border border-gray-300'}
+          className={
+            'z-10 mt-3 -mr-80 h-40 w-80 cursor-pointer rounded-xl border border-gray-300 hover:shadow-md'
+          }
           onClick={() => setIsEditable(!isEditable)}
         />
       ) : (
@@ -127,7 +128,7 @@ export default function Card({
       )}
       <div className={`flex flex-col`}>
         <div
-          className={`my-3 sm:mr-3 flex ${isEditable ? 'h-40' : 'h-30'} w-80 flex-col rounded-xl border border-gray-300 ${`bg-card-${note.color}`}`}
+          className={`my-3 flex sm:mr-3 ${isEditable ? 'h-96' : 'h-40'} w-80 flex-col rounded-xl border border-gray-300 ${`bg-card-${note.color}`}`}
         >
           <div className={`mx-2 mt-2 mb-1 flex items-start`}>
             <input
@@ -139,7 +140,7 @@ export default function Card({
                 setEditableNote({ ...editableNote, title: e.target.value })
               }
             />
-            <div className={'mt-1 z-20'}>
+            <div className={'z-20 mt-1'}>
               <CardButton
                 Icon={StarIcon}
                 hover
@@ -149,7 +150,7 @@ export default function Card({
               />
             </div>
           </div>
-          <div className={'mx-2 my-1 flex'}>
+          <div className={'mx-2 my-1 flex grow'}>
             <textarea
               className={`grow resize-none px-2 py-1 outline-none`}
               value={editableNote.body}
@@ -161,7 +162,7 @@ export default function Card({
             />
           </div>
           {isEditable ? (
-            <div className={'mx-2 flex pt-2'}>
+            <div className={'mx-2 flex py-2'}>
               <div className={'flex items-center'}>
                 <CardButton
                   Icon={PaintIcon}
