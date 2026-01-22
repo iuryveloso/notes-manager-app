@@ -2,7 +2,16 @@
 
 ## Overview
 
-The Notes Manager is a simple and intuitive app for managing notes. It's built using [Next.js](https://nextjs.org/) for the frontend app and [Laravel](https://laravel.com/) + [MySQL](https://www.mysql.com/) for the backend REST API.
+A streamlined note management application built for efficiency and organization. Built using [Next.js](https://nextjs.org/) for the frontend app and [Laravel](https://laravel.com/) + [MySQL](https://www.mysql.com/) for the backend REST API.
+
+### Features
+
+* **Core CRUD:** Seamlessly create, edit, and delete notes.
+* **Organization:** Categorize notes by color and mark important items as favorites.
+* **Smart Search:** Advanced filtering system by color and keyword content.
+* **Responsive UI:** Optimized for a smooth experience across different devices.
+
+### View Images
 
 ![Login](./images/login.png)
 ![Register](./images/register.png)
